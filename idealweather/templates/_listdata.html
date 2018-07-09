@@ -1,0 +1,37 @@
+        <div class="row">
+            <div class="col-md-12">
+                {% for station in stations %}
+                    <div class="row">
+                        <h4>Station: {{ station['wban'] }} {{ station['name'] }}, {{ station['state'] }}</h4>
+                    </div>
+                    <div class="row">
+                        <table class="table">
+                            <tr>
+                                <th>Month</th>
+                                <th>LE20</th>
+                                <th>LT40</th>
+                                <th>40 to 60</th>
+                                <th>GT60</th>
+                                <th>GE80</th>
+                                <th>Avg Max Temp</th>
+                                <th>Avg Min Temp</th>
+                                <th>Avg Temp</th>
+                            </tr>
+                            {% for station_month in station['station_data'] %}
+                                <tr>
+                                    <td>{{ station_month['month'] }}</td>
+                                    {% for bucket in station_month['humidity'] %}
+                                        <td>{{ bucket[1] }}</td>
+                                    {% endfor %}
+                                    <td>{{ station_month['temperature_high'] }}</td>
+                                    <td>{{ station_month['temperature_low'] }}</td>
+                                    <td>{{ station_month['temperature_avg'] }}</td>
+                                </tr>
+                            {% endfor %}
+                        </table>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+
+

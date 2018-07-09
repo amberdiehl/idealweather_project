@@ -1,0 +1,62 @@
+{% extends 'layout.html' %}
+{% from 'macros.html' import render_field %}
+
+{% block title %}Station | {% endblock %}
+{% block page_header %}
+   <div class="page-header header-filter" data-parallax="true"
+        style="background-image: url('../static/assets/img/city.jpg');"></div>
+{% endblock %}
+{% block content %}
+    <div class="section">
+        <h1>Explore by Station</h1>
+        <form method="POST" action="">
+            {{ form.hidden_tag() }}
+            <fieldset>
+                <legend>Select Weather Station</legend>
+                <p><b>Instructions</b></p>
+                <p></p>
+                {% for field in form %}
+                    {% if not field.name == 'csrf_token' %}
+                        {{ render_field(field) }}
+                    {% endif %}
+                {% endfor %}
+                <button class="btn btn-primary" type="submit" id="submit">Get my weather!</button>
+            </fieldset>
+        </form>
+    </div>
+{% endblock %}
+{% block scripts %}
+    <script>
+        function sortJsonByValue(a,b) {
+            return a.name.toLowerCase() > b.name.toLowerCase() ? 1 : -1;
+        }
+        $('#state').change(function() {
+            var endPoint = window.location.protocol + '//' + window.location.hostname + ':' + window.location.port +
+                "/ajax/stations/" + $('#state').val();
+            var jqxhr = $.ajax({
+                url: endPoint,
+                dataType: 'json',
+                success: function(data, success_code, jqxhr) {
+                    // https://stackoverflow.com/questions/17546953/cant-access-object-property-even-though-it-exists-returns-undefined
+                    var jsonData = JSON.parse(JSON.stringify(data)); // will not get keys without this
+                    var stations = jsonData["stations"].sort(sortJsonByValue);
+                    var stationToSelect = jsonData["select_option"];
+                    var htmlSelected;
+                    $('#station').find('option').remove().end().append('<option value="all">All</option>');
+                    $.each(stations, function(index, station) {
+                        htmlSelected = '';
+                        if (station.code.toString() === stationToSelect) {
+                            htmlSelected = 'selected';
+                        }
+                        $('#station').append('<option value="' + station.code + '" ' + htmlSelected + '>' + station.name + '</option>');
+                    });
+                },
+                fail: function(){alert('Unable to get stations at this time.');}
+            })
+        });
+        // When form is initialized, get stations for state
+        if ($('#state') !== '') {
+            $('#state').trigger('change');
+        }
+    </script>
+{% endblock %}

@@ -1,0 +1,54 @@
+{% extends 'layout.html' %}
+{% from 'macros.html' import render_field %}
+
+{% block title %}Humidity | {% endblock %}
+{% block page_header %}
+   <div class="page-header header-filter" data-parallax="true"
+        style="background-image: url('../static/assets/img/leaf-1001679_1280.jpg');"></div>
+{% endblock %}
+{% block content %}
+    <div class="section">
+        <h1>Explore by Humidity Data</h1>
+        <form method="POST" action="">
+            {{ form.hidden_tag() }}
+            <fieldset>
+                <legend>Select Weather Data</legend>
+                <p><b>Instructions</b></p>
+                <p></p>
+                {% for field in form %}
+                    {% if not field.name == 'csrf_token' %}
+                        {{ render_field(field) }}
+                    {% endif %}
+                {% endfor %}
+                <button class="btn btn-primary" type="submit" id="submit">Get my weather!</button>
+            </fieldset>
+        </form>
+    </div>
+{% endblock %}
+{% block scripts %}
+    <script>
+        // Default to not showing dependent selections if time period has not been initialized
+        if ( $( "#time_period").val() !== 'season') {
+            $("#div-season").css('display', 'none');
+        }
+        if ( $( "#time_period").val() !== 'month') {
+            $("#div-month").css('display', 'none');
+        }
+
+        // Show hide season and month based on state of time period selection
+        $( "#time_period" ).change(function() {
+            var elSeason = $( "#div-season");
+            var elMonth = $( "#div-month");
+            if ($(this).val() === '0') {
+                elSeason.css('display', 'none');
+                elMonth.css('display', 'none');
+            } else if ($(this).val() === 'season') {
+                elSeason.css('display', 'block');
+                elMonth.css('display', 'none');
+            } else {
+                elSeason.css('display', 'none');
+                elMonth.css('display', 'block');
+            }
+        });
+    </script>
+{% endblock %}

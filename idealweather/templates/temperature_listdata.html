@@ -1,0 +1,16 @@
+{% extends 'layout.html' %}
+{% block title %}Temperature | {% endblock %}
+{% block page_header %}
+   <div class="page-header header-filter" data-parallax="true"
+        style="background-image: url('../static/assets/img/sunrise-1670979_1280.jpg');"></div>
+{% endblock %}
+{% block content %}
+    <div class="section">
+        <h1>Explore by Temperature Data Results</h1>
+        <div class="row">
+            <h4 class="p-0">
+                Max/Min Temperature Selection: {{ weather['temperature_max'] }}, {{ weather['temperature_min'] }}</h4>
+        </div>
+        {% include "_listdata.html" %}
+    </div>
+{% endblock %}

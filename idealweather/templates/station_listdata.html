@@ -1,0 +1,15 @@
+{% extends 'layout.html' %}
+{% block title %}Station | {% endblock %}
+{% block page_header %}
+   <div class="page-header header-filter" data-parallax="true"
+        style="background-image: url('../static/assets/img/city.jpg');"></div>
+{% endblock %}
+{% block content %}
+    <div class="section">
+        <h1>Explore by Station Data Results</h1>
+        <div class="row">
+            <h4 class="p-0">State and Station Selection: {{ weather['state'] }}, {{ weather['station'] }}</h4>
+        </div>
+        {% include "_listdata.html" %}
+    </div>
+{% endblock %}

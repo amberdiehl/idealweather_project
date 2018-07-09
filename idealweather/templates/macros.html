@@ -1,0 +1,16 @@
+{% macro render_field(field) %}
+    <div class="col-md-8">
+    <div id="div-{{ field.name }}" class="form-group bmd-form-group">
+        {% if not field.type == 'SelectField' %}
+            <label for="{{ field.id }}" class="bmd-label-floating">{{ field.label.text }}</label>
+        {% endif %}
+        {{ field(class_="form-control") }}
+        <span class="bmd-help">{{ field.description }}</span>
+        {% if field.errors %}
+            {% for error in field.errors %}
+                <div class="alert alert-warning">{{ error }}</div>
+            {% endfor %}
+        {% endif %}
+    </div>
+    </div>
+{% endmacro %}

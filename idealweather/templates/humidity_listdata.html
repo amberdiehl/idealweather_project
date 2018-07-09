@@ -1,0 +1,21 @@
+{% extends 'layout.html' %}
+{% block title %}Humidity | {% endblock %}
+{% block page_header %}
+   <div class="page-header header-filter" data-parallax="true"
+        style="background-image: url('../static/assets/img/leaf-1001679_1280.jpg');"></div>
+{% endblock %}
+{% block content %}
+    <div class="section">
+        <h1>Explore by Humidity Data Results</h1>
+        <div class="row">
+            <h4 class="p-0">Selected month(s): {% for month in weather.months %}{{ month }} {% endfor %}
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                LE20: {{ weather.percentage.le20 }}&nbsp;&nbsp;&nbsp;LT40: {{ weather.percentage.lt40 }}&nbsp;&nbsp;&nbsp;
+                40 - 60: {{ weather.percentage.target }}&nbsp;&nbsp;&nbsp;
+                GT60: {{ weather.percentage.gt60 }}&nbsp;&nbsp;&nbsp;
+                GE80: {{ weather.percentage.ge80 }}</h4>
+        </div>
+        {% include "_listdata.html" %}
+    </div>
+
+{% endblock %}
